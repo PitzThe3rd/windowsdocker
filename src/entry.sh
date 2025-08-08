@@ -27,6 +27,14 @@ trap - ERR
 version=$(qemu-system-x86_64 --version | head -n 1 | cut -d '(' -f 1 | awk '{ print $NF }')
 info "Booting ${APP}${BOOT_DESC} using QEMU v$version..."
 
+
+#custom addition to test eneable balooning
+ARGS="$ARGS -device virtio-balloon"
+
+
+
+
+
 { qemu-system-x86_64 ${ARGS:+ $ARGS} >"$QEMU_OUT" 2>"$QEMU_LOG"; rc=$?; } || :
 (( rc != 0 )) && error "$(<"$QEMU_LOG")" && exit 15
 
